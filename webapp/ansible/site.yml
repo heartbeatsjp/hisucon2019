@@ -1,0 +1,7 @@
+- name: Apply common configuration to all hosts
+  hosts: all
+  become: yes
+  #ignore_errors: yes
+  roles:
+    - common
+    - webapp

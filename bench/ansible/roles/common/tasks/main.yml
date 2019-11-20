@@ -1,0 +1,56 @@
+---
+- name: set fastestmirror only JP
+  lineinfile:
+    dest=/etc/yum/pluginconf.d/fastestmirror.conf
+    backup=true
+    state=present
+    line={{ item }}
+  with_items:
+    - 'include_only=.jp'
+
+- name: install epel-release
+  yum: name=epel-release state=present
+
+- name: Update all packages
+  yum: name='*' state=present
+
+- name: install base packages
+  yum:
+    name: ["@Base", "@Compatibility libraries", "@Additional Development", "@Development tools", "@System administration tools", "@System Management"]
+    state: present
+
+- name: Install other packages
+  yum: name={{ item }} state=present
+  with_items:
+    - bind-utils
+    - dstat
+    - ftp
+    - git
+    - jq
+    - jwhois
+    - lsof
+    - mailx
+    - man
+    - psacct
+    - sysstat
+    - tcpdump
+    - telnet
+    - tmux
+    - nmap
+    - vim
+    - wget
+    - yum-plugin-fastestmirror
+
+- name: Set timezone to Asia/Tokyo
+  timezone:
+    name: Asia/Tokyo
+
+- name: disable SELinux
+  selinux: state=disabled
+
+- name: Start firewalld and set auto start
+  systemd: state=started name=firewalld.service enabled=yes
+
+
+
+# vim:ft=ansible:

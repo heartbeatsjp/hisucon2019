@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}編集{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h2>社報の編集</h2>
+    <div class="py-3">
+        <form method="post" action="/bulletins/edit/{{ bulletin['id'] }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="form-group row">
+                <label for="title" class="col-md-2 col-form-label">
+                    <font size="5">タイトル</font><span class="badge badge-warning">必須</span>
+                </label>
+                <div class="col-md-10">
+                    <input class="edit-title-input input-line form-control" type="text" name="title" value="{{ bulletin['title'] }}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="body" class="col-md-2 col-form-label">
+                    <font size="5">本文</font><span class="badge badge-warning">必須</span>
+                </label>
+                <div class="col-md-10">
+                    <textarea class="edit-description-input form-control" rows="8" type="text" name="body">{{ bulletin['body'] }}</textarea>
+                </div>
+            </div>
+            <div class="form-group row justify-content-end">
+                <div class="col-md-1">
+                    <button class="btn btn-dark" type="submit">保存</button>
+                </div>
+            </div>
+            <div class="form-group row justify-content-end">
+                <div id="open-modal" class="open-modal">
+                    <a>社報を削除する</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <a href="/">トップに戻る</a>
+</div>
+<div id="modal-back" class="modal-back">
+    <div class="modal-wrapper">
+        <div class="modal-contents">
+            <h3>本当に削除しますか？</h3>
+            <form method="post" action="/bulletins/delete/{{ bulletin['id'] }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <button class="btn btn-dark" type="submit">削除</button>
+            </form>
+            <button class="btn btn-dark" id="cancel-btn">キャンセル</button>
+        </div>
+        <div id="close-modal" class="close-modal">× </div>
+    </div>
+</div>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/modal.js"></script>
+{% endblock %}

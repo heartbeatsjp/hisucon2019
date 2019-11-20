@@ -1,0 +1,77 @@
+---
+- name: set fastestmirror only JP
+  lineinfile:
+    dest=/etc/yum/pluginconf.d/fastestmirror.conf
+    backup=true
+    state=present
+    line={{ item }}
+  with_items:
+    - 'include_only=.jp'
+
+- name: install epel-release
+  yum: name=epel-release state=present
+
+- name: Update all packages
+  yum: name='*' state=present
+
+- name: install base packages
+  yum:
+    name: ["@Base", "@Compatibility libraries", "@Additional Development", "@Development tools", "@System administration tools", "@System Management"]
+    state: present
+
+- name: Install other packages
+  yum: name={{ item }} state=present
+  with_items:
+    - bind-utils
+    - dstat
+    - ftp
+    - git
+    - jq
+    - jwhois
+    - lsof
+    - mailx
+    - man
+    - psacct
+    - sysstat
+    - tcpdump
+    - telnet
+    - tmux
+    - nmap
+    - vim
+    - wget
+    - yum-plugin-fastestmirror
+
+- name: Set timezone to Asia/Tokyo
+  timezone:
+    name: Asia/Tokyo
+
+- name: disable SELinux
+  selinux: state=disabled
+
+- name: Start firewalld and set auto start
+  systemd: state=started name=firewalld.service enabled=yes
+
+- name: user add
+  user: name={{ item.name }} state=present password={{ item.password }}
+  with_items: '{{ users }}'
+  tags: users
+
+- name: Mkdir ~/.ssh
+  file: path="/home/{{ item.name }}/.ssh" state=directory owner={{ item.name }} group={{ item.name }} mode=0700
+  with_items: '{{ users }}'
+  tags: users
+
+- name: Set authorized_key
+  shell: |-
+    cp -a /root/.ssh/authorized_keys /home/{{ item.name }}/.ssh/
+    cd /home/{{ item.name }}/.ssh
+    chown hisucon.hisucon authorized_keys
+  with_items: '{{ users }}'
+  tags: users
+
+- name: sudo configured
+  copy: src={{ item.name }} dest="/etc/sudoers.d/" owner=root group=root mode=0440
+  with_items: '{{ users }}'
+  tags: users
+
+# vim:ft=ansible:

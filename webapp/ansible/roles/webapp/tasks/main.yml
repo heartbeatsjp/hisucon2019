@@ -1,0 +1,76 @@
+---
+- name: install docker
+  yum:
+    name: ["git", "docker", "docker-compose"]
+    state: present
+
+- name: install python3
+  yum:
+    name: ["python36", "python36-pip"]
+    state: present
+
+- name: copy docker items
+  synchronize:
+    src: Docker
+    dest: /home/hisucon
+    compress: no
+    delete: yes
+
+- name: copy docker-compose.yml
+  synchronize:
+    src: docker-compose.yml
+    dest: /home/hisucon
+    compress: no
+
+- name: copy webapp
+  synchronize:
+    src: app
+    dest: /home/hisucon
+    compress: no
+    delete: yes
+
+- name: make icons dir
+  file: path=/home/hisucon/app/static/{{ item }} state=directory
+  with_items:
+    - icons
+    - original_icons
+
+- name: unarchive image 1
+  unarchive:
+    src: /home/hisucon/app/static/icons.zip
+    dest: /home/hisucon/app/static/icons
+    remote_src: yes
+
+- name: unarchive image 2
+  unarchive:
+    src: /home/hisucon/app/static/icons.zip
+    dest: /home/hisucon/app/static/original_icons
+    remote_src: yes
+
+- name: unarchive initial data
+  unarchive:
+    src: /home/hisucon/Docker/mysql/data.zip
+    dest: /home/hisucon/Docker/mysql
+    remote_src: yes
+
+- name: change owner
+  shell: |-
+    cd /home/
+    chown -R hisucon.hisucon hisucon
+
+- name: FW HTTP
+  firewalld:
+    service: http
+    permanent: true
+    immediate: true
+    state: enabled
+
+- name: Start docker and set auto start
+  systemd: state=started name=docker.service enabled=yes
+
+- name: container build and start
+  shell: |-
+    cd /home/hisucon/
+    docker-compose up -d
+
+# vim:ft=ansible:

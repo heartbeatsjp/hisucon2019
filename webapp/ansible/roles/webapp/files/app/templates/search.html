@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}タイトル検索{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row search-title">
+        <h2 class="view-title">タイトル検索</h2>
+    </div>
+    <div class="search">
+        <form action="/bulletins/search" method="get">
+            <div class="form-group row">
+                <div class="col-md-10">
+                    <input class="search-title-input form-control" type="text" name="title">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-dark search-title-button" type="submit">検索</button>
+                </div>
+            </div>
+        </form>
+        {% if name %}
+        <form action="/bulletins/search" method="get">
+            <div class="form-group row">
+                <div class="col">
+                    <button class="search-mybulletins-button btn btn-dark" type="submit" name="my_bulletins" value={{ name }}>自分が投稿した社報を表示</button>
+                </div>
+            </div>
+        </form>
+       {% endif %}
+    </div>
+</div>
+
+<div class="container index-contents">
+    <div class="row">
+        <div class="col">
+            <div class="pagination-info">{{ pagination.info }}</div>
+            {% if name %}
+            <div class="bulletin-add">
+                <a href="/bulletins/add">
+                    <button class="btn btn-outline-dark bulletin-add-button" name="add">社報を追加</button>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</br>
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped table-bordered bulletins-table">
+                <thead class="thead-dark">
+                    <tr class="table-header">
+                        <th>タイトル</th>
+                        <th>作成者</th>
+                        <th>更新日時</th>
+                    </tr>
+                </thead>
+                {% for conte in contents %}
+                <tr class="table-contents">
+                    <td class="table-contents-title" style="width:55%"><a href="{{ url_for('view', bulletin_id=conte.id) }}">{{ conte.title }}</a></td>
+                    <td class="table-contents-nickname" style="width:20%">{{ conte.nickname }}</td>
+                    <td class="table-contents-modified" style="width:25%">{{ conte.modified }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        {{ pagination.links }}
+    </div>
+    <a href="/">トップに戻る</a>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+- name: Apply common configuration to all hosts
+  hosts: all
+  become: yes
+  ignore_errors: yes
+  roles:
+      - common
+      - mysql
+      - redis
+      - golang
+      - webapp
+      - bench
+      - grafana

@@ -1,0 +1,232 @@
+.pagination-page-info {
+    margin-top: 5px;
+    float: left;
+    width: 40em;
+    font-size: 12px;
+}
+.pagination-page-info b {
+    color: black;
+    background: #6aa6ed;
+    padding-left: 2px;
+    padding: .1em .25em;
+    font-size: 150%;
+}
+
+.pagination {
+    margin: auto;
+    display: inline-block;
+    text-align: center;
+}
+
+.pagination li {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-left: 0;
+    text-align: center;
+    font-weight: bold;
+    background-color: white;
+    color: #4169e1;
+}
+
+.active a {
+    background-color: #4169e1 !important;
+    color: white !important;
+}
+
+.pagination li a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: #4169e1;
+}
+
+.previous {
+    border: 1px solid #282828;
+    border-left: 1px solid #ccc !important;
+}
+
+.h-ranking-login {
+    margin-left: 50px;
+}
+.index-title h1 {
+    margin: 20px;
+}
+
+.view-title {
+    margin: 20px;
+}
+
+.list-inline {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+img.icon {
+    vertical-align: baseline;
+}
+
+.comment-textarea {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.comment-add-btn {
+    margin-right: 20px;
+}
+
+
+.bulletin-box {
+    border: 1px solid black;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+    margin-left: 15px;
+    margin-right: 15px;
+    width: auto;
+}
+
+.comment-box {
+    border: 1px solid black;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 15px;
+}
+
+.bulletin-comment-h {
+    margin-bottom: 20px;
+}
+
+.pagination-info {
+    margin-left: 10px;
+}
+
+.bulletin-add, .bulletin-commit-btn, .tttt {
+    text-align: right;
+}
+
+.access-ranking {
+    text-align: center;
+}
+
+.login-box {
+    border: 1px solid silver;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+  }
+.form-signin .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.add-title-input, .add-description-input {
+    margin-top: 10px;
+}
+
+.container h2 {
+    margin-top: 20px;
+}
+
+.modal-back {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128,128,128,0.8);
+    display: none;
+    position: fixed;
+    z-index: 10; 
+    top: 0;
+    left: 0;
+}
+
+.modal-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:translate(-50%,-50%);
+    width: 70%;
+    max-width: 500px;
+    padding: 30px;
+    background-color: #fff;
+    border: 1px solid #282828;
+}
+
+.modal-contents button {
+    float: right;
+    margin-left: 20px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    cursor: pointer;
+}
+
+.open-modal {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.edit-user-li {
+    margin-left: 20px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.edit-nickname-li {
+    margin-left: 20px;
+
+}
+.edit-user-input {
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.flash-msg {
+    margin-top: 20px;
+}
+
+.error_msg {
+    font-size: 12px;
+    color: red;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.success_msg {
+    font-size: 12px;
+    color: green;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.contents-body {
+    white-space: pre;
+}

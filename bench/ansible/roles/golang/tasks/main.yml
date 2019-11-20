@@ -1,0 +1,47 @@
+---
+- name: mkdir ~/go
+  file: path="/root/go" state=directory owner=root group=root mode=0700
+
+- name: Check install golang
+  shell: which go
+  register: go_install
+  failed_when: go_install.rc not in [0, 1]
+
+- name: Install golang
+  yum: name={{ item }} state=present
+  with_items:
+    - go
+
+- name: setup golang
+  shell: |-
+    echo 'export GOPATH=$HOME/go' >> ~/.bashrc
+    echo 'export PATH=$PATH:$GOPATH/bin' >> ~/.bashrc
+    source ~/.bashrc
+  when: go_install.rc == 1
+
+- name: Install go packages
+  shell: |-
+    source ~/.bashrc
+    go get -u {{ item }}
+  with_items:
+    - github.com/gin-gonic/gin
+    - github.com/go-sql-driver/mysql
+    - github.com/jinzhu/gorm
+    - github.com/gomodule/redigo/redis
+    - github.com/go-redis/redis
+    - github.com/constabulary/gb/...
+
+- name: Install goworker
+  shell: |-
+    source ~/.bashrc
+    cd ~/go/src/github.com/
+    rm -rf benmanns
+    mkdir benmanns
+    cd benmanns
+    git clone https://github.com/benmanns/goworker.git
+    sed -ie "34 s/time.Duration)/time.Duration, prefillParallelism int)/g" goworker/redis.go
+    sed -ie "35 s/idleTimout)/idleTimout, 0)/g" goworker/redis.go
+    sed -ie "64 s/time.Minute)/time.Minute, 0)/g" goworker/goworker.go
+    go get -u github.com/benmanns/goworker
+
+# vim:ft=ansible:

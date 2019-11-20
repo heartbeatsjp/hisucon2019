@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}ユーザ登録{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h2>ユーザ登録</h2>
+        <div class="py-3">
+            <form method="post" action="{{ url_for('users_add')}}" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="form-group row">
+                    <label id="user-name" for="user-name" class="col-md-4 col-form-label">
+                        <font size="5">ユーザ名</font><span class="badge badge-warning">必須</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" name="username">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label id="password" for="password" class="col-md-4 col-form-label">
+                        <font size="5">パスワード</font><span class="badge badge-warning">必須</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="password" name="password">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label id="password-confirm" for="password-confirm" class="col-md-4 col-form-label">
+                        <font size="5">パスワード確認用</font><span class="badge badge-warning">必須</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="password" name="password_confirm">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label id="nickname" for="nickname" class="col-md-4 col-form-label">
+                        <font size="5">ニックネーム</font><span class="badge badge-warning">必須</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" name="nickname">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label id="icon" for="icon" class="col-md-4 col-form-label">
+                        <font size="5">アイコン</font>
+                    </label>
+                    <div class="col-md-8">
+                        <input class="" type="file" name="icon">
+                    </div>
+                </div>
+                <div class="form-group row justify-content-end">
+                    <div class="col-md-1">
+                        <button class="btn btn-dark" type="submit">登録</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <a href="/">トップに戻る</a>
+    </div>
+</form>
+{% endblock %}

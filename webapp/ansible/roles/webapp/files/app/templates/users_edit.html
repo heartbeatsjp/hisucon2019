@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}ユーザ編集{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h2>ユーザ情報の編集</h2>
+    <div class="py-3">
+        <form method="post" action="{{ url_for('users_edit') }}" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div class="form-group row">
+                <ul class="list-unstyled col-md-2">
+                    <li>
+                        <img src="/static/icons/{{ user_data['icon'] }}" alt="icon" width="200" height="200">
+                    </li>
+                    <li>
+                        <input class="edit-icon" type="file" name="icon">
+                    </li>
+                </ul>
+                <label for="username" class="col-md-4 col-form-label">
+                    <ul class="list-unstyled">
+                        <li class="edit-user-li">
+                            <font size="5" class="edit-user">ユーザ名: {{ user_data['username'] }}</font>
+                        </li>
+                        <li class="edit-nickname-li">
+                            <font size="5" class="edit-nickname">ニックネーム: {{ user_data['nickname'] }}</font>
+                        </li>
+                    </ul>
+                </label>
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li>
+                            <input class="edit-user-input form-control" type="text" name="username" value="">
+                        </li>
+                        <li>
+                            <input class="edit-nickname-input form-control" type="text" name="nickname" value="">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group row justify-content-end">
+                <div class="col-md-1">
+                    <button class="btn btn-dark" type="submit">保存</button>
+                </div>
+            </div>
+            <div class="form-group row justify-content-end">
+                <div class="link-password"><a href="/users/password">パスワードを更新する</a></div>
+            </div>
+        </form>
+    </div>
+    <a href="/">トップに戻る</a>
+</div>
+{% endblock %}

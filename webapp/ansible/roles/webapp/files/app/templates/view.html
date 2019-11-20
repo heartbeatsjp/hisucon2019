@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}詳細{% endblock %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#star-button').click(function(event){
+            $.ajax({
+                data : $(this).parent('form').serialize(),
+                type : 'POST',
+                url : $(this).parent('form').attr('action')
+            }).done(function(data){
+                $('#star').text(data.output);
+            });
+            event.preventDefault();
+        });
+    });
+</script>
+
+<div class="container">
+    <div class="row">
+        <h2 class="view-title">{{ bulletin['title'] }}</h2>
+    </div>
+    <div class="container-fluid bulletin-box">
+        <div class="row">
+            <ul class="list-inline col-11 mr-auto">
+                <li class="list-inline-item">
+                    <img class="icon" src="/static/icons/{{ nickname['icon'] }}" alt="icon" width="40" height="40">
+                </li>
+                <li class="list-inline-item">
+                    <ul class="list-unstyled">
+                        <li class="nickname">{{ nickname['nickname'] }}</li>
+                        <li class="modified">{{ bulletin['modified'] }}</li>
+                    </ul>
+                </li>
+                <li class="list-inline-item">
+                    <form id="star-form" method="post" action="/star">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <input type="hidden" name="bulletin_id" value="{{ bulletin['id'] }}"/>
+                        <input type="image" id="star-button" name="star" src="/static/icons/star.png" width="30" height="30"></button>
+                    </form>
+                </li>
+                <li class="list-inline-item" id="star">{{ star_count }}</li>
+            </ul>
+            <div class="col tttt">
+                {% if user_id == nickname['id'] %}
+                <button class="btn btn-dark bulletin-edit-btn" onclick="location.href='/bulletins/edit/{{ bulletin['id'] }}'">
+                    <font size="3">編集</font>
+                </button>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col contents-body">{{ bulletin['body'] }}</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row bulletin-comment-h"><h4>コメント</h4></div>
+        {% if comments %}
+        {% for comment in comments %}
+        <div class="container-fluid comment-box">
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#comment-star-button-{{ comment['id'] }}').click(function(event){
+                        $.ajax({
+                           data : $(this).parent('form').serialize(),
+                           type : 'POST',
+                           url : $(this).parent('form').attr('action')
+                        }).done(function(data){
+                           $('#comment-star-{{ comment['id'] }}').text(data.output);
+                        });
+                        event.preventDefault();
+                    });
+                });
+            </script>
+            <div class="row">
+                <ul class="list-inline col-11 mr-auto">
+                    <li class="list-inline-item">
+                        <img class="icon" src="/static/icons/{{ comment['icon'] }}" alt="icon" width="40" height="40">
+                    </li>
+                    <li class="list-inline-item">
+                        <ul class="list-unstyled">
+                            <li class="nickname">{{ comment['nickname'] }}</li>
+                            <li class="created">{{ comment['created'] }}</li>
+                        </ul>
+                    </li>
+                    <li class="list-inline-item">
+                        <form id="star-form" method="post" action="/star">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" name="comment_id" value="{{ comment['id'] }}"/>
+                            <input type="image" id="comment-star-button-{{ comment['id'] }}" name="star" src="/static/icons/star.png" width="30" height="30"></button>
+                        </form>
+                    </li>
+                    <li class="list-inline-item" id="comment-star-{{ comment['id'] }}">{{ comment['star_count'] }}</li>
+                </ul>
+                <div class="col tttt">
+                    {% if user_id == comment['user_id'] %}
+                    <button class="btn btn-dark comment-edit-btn" onclick="location.href='/comment/edit/{{ comment['id'] }}'">
+                        <font size="3">編集</font>
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="comment"><font>{{ comment['comment'] }}</font></div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        </div>
+        <div class="container">
+            {% if name %}
+            <form action="/bulletins/add_comment" method="post">
+                <div class="form-group row">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <textarea class="form-control comment-textarea" rows="4" type="text" name="comment"></textarea>
+                </div>
+                <div class="form-group row justify-content-end">
+                    <button class="btn btn-dark comment-add-btn" type="submit" name="bulletin_id" value={{ bulletin['id'] }}>
+                        <font size="3">コメントを追加</font>
+                    </button>
+                </div>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    <a href="/">トップに戻る</a>
+</div>
+{% endblock %}

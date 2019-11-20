@@ -1,0 +1,43 @@
+version: '3'
+services:
+  app:
+    container_name: hisucon2019-app
+    build:
+      context: .
+      dockerfile: ./Docker/webapp/Dockerfile
+    volumes:
+      - ./app:/var/www/html/app
+    environment:
+      - TZ=Asia/Tokyo
+    ports:
+      - "8000:5000"
+    restart: always
+  web:
+    container_name: hisucon2019-nginx
+    build:
+      context: .
+      dockerfile: ./Docker/nginx/Dockerfile
+    volumes:
+      - ./Docker/nginx/conf/conf.d:/etc/nginx/conf.d
+      - ./Docker/nginx/log:/var/log/nginx
+    environment:
+      - TZ=Asia/Tokyo
+    ports:
+      - "80:80"
+    restart: always
+  db:
+    container_name: hisucon2019-db
+    build:
+      context: .
+      dockerfile: ./Docker/mysql/Dockerfile
+    volumes:
+      - ./Docker/mysql/sqls:/docker-entrypoint-initdb.d
+      - ./Docker/mysql/data:/var/lib/mysql
+      - ./Docker/mysql/log:/var/log/mysql
+      - ./Docker/mysql/conf.d:/etc/mysql/conf.d
+    environment:
+      - TZ=Asia/Tokyo
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - "3306:3306"
+    restart: always
