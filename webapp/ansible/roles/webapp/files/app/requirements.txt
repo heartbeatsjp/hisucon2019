@@ -5,3 +5,4 @@ Flask-SQLAlchemy==2.4.0
 Flask-WTF==0.14.2
 flask_paginate==0.5.2
 Pillow
+werkzeug==0.16.0
